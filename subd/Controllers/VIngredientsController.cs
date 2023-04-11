@@ -21,21 +21,9 @@ namespace subd.Controllers
 
         public ActionResult SelectedIndexChanged(string Id)
         {
-            string cnnString = "Server=DESKTOP-47H9CRM\\MSSQLSERVER01;Database=lab6-10;Trusted_Connection=True;MultipleActiveResultSets=true";
-            //ingredient = "Шашлычная пицца";
-            //int prodId = Convert.ToInt32(Request.Form["VIngredientsList"]);
             int prodId = Convert.ToInt32(Id);
             var prod = _context.Products.Find(prodId);
             string ingredient = prod.Name;
-/*            SqlConnection cnn = new SqlConnection(cnnString);
-            SqlCommand cmd = new SqlCommand();
-            cmd.Connection = cnn;
-            cmd.CommandType = System.Data.CommandType.StoredProcedure;
-            cmd.CommandText = "SelectIngredientDropDownList";
-            cmd.Parameters.Add(new SqlParameter("@prod_name", ingredient));
-            cnn.Open();
-            object o = cmd.ExecuteScalar();
-            cnn.Close();*/
             var prod_name = new SqlParameter("prod_name", ingredient);
             var vingred = _context.VIngredients
             .FromSqlRaw("EXECUTE dbo.SelectIngredientDropDownList  @prod_name", prod_name)
